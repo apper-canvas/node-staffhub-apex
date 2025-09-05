@@ -29,7 +29,7 @@ const Employees = () => {
 
   // Filter employees based on search and filters
 // Filter employees based on search and filters
-  useEffect(() => {
+useEffect(() => {
     let filtered = employees;
 
     if (departmentFilter) {
@@ -41,13 +41,13 @@ const Employees = () => {
     }
 
     setFilteredEmployees(filtered);
+  }, [employees, departmentFilter, statusFilter]);
 
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
     searchEmployees(query);
   };
-
   const handleDeleteEmployee = async (employee) => {
     if (window.confirm(`Are you sure you want to delete ${employee.firstName} ${employee.lastName}?`)) {
       try {
