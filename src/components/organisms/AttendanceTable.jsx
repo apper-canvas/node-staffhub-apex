@@ -9,8 +9,8 @@ import { cn } from "@/utils/cn";
 const AttendanceTable = ({ attendanceData, onMarkAttendance, onUpdateStatus }) => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
 
-  const filteredData = attendanceData.filter(record => 
-    format(new Date(record.date), "yyyy-MM-dd") === selectedDate
+const filteredData = attendanceData.filter(record => 
+    format(new Date(record.date_c), "yyyy-MM-dd") === selectedDate
   );
 
   const handleStatusChange = (recordId, newStatus) => {
@@ -81,30 +81,30 @@ const AttendanceTable = ({ attendanceData, onMarkAttendance, onUpdateStatus }) =
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <Avatar
-                      fallback={record.employeeName}
+fallback={record.employee_name_c}
                       size="sm"
                     />
                     <div className="ml-3">
                       <div className="text-sm font-medium text-gray-900">
-                        {record.employeeName}
+{record.employee_name_c}
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {record.department}
+<div className="text-sm text-gray-500">
+                        {record.department_c}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatTime(record.checkIn)}
+{formatTime(record.check_in_c)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatTime(record.checkOut)}
+{formatTime(record.check_out_c)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <StatusBadge status={record.status} type="attendance" />
+<StatusBadge status={record.status_c} type="attendance" />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                  {record.status === "absent" && (
+{record.status_c === "absent" && (
                     <Button
                       size="sm"
                       variant="success"
@@ -113,7 +113,7 @@ const AttendanceTable = ({ attendanceData, onMarkAttendance, onUpdateStatus }) =
                       Mark Present
                     </Button>
                   )}
-                  {record.status === "present" && !record.checkOut && (
+{record.status_c === "present" && !record.check_out_c && (
                     <Button
                       size="sm"
                       variant="outline"

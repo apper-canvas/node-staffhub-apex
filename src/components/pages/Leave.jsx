@@ -1,15 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useLeave } from "@/hooks/useLeave";
+import { format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
 import LeaveRequestForm from "@/components/organisms/LeaveRequestForm";
 import StatusBadge from "@/components/molecules/StatusBadge";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import { format } from "date-fns";
+import Loading from "@/components/ui/Loading";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 
 const Leave = () => {
   const { 
@@ -25,9 +25,9 @@ const Leave = () => {
   const [showForm, setShowForm] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
 
-  const filteredRequests = leaveRequests.filter(request => {
+const filteredRequests = leaveRequests.filter(request => {
     if (activeTab === "all") return true;
-    return request.status === activeTab;
+    return request.status_c === activeTab;
   });
 
   const handleSubmitRequest = async (requestData) => {
@@ -72,10 +72,10 @@ const Leave = () => {
   }
 
   const tabs = [
-    { id: "all", label: "All Requests", count: leaveRequests.length },
-    { id: "pending", label: "Pending", count: leaveRequests.filter(r => r.status === "pending").length },
-    { id: "approved", label: "Approved", count: leaveRequests.filter(r => r.status === "approved").length },
-    { id: "rejected", label: "Rejected", count: leaveRequests.filter(r => r.status === "rejected").length }
+{ id: "all", label: "All Requests", count: leaveRequests.length },
+    { id: "pending", label: "Pending", count: leaveRequests.filter(r => r.status_c === "pending").length },
+    { id: "approved", label: "Approved", count: leaveRequests.filter(r => r.status_c === "approved").length },
+    { id: "rejected", label: "Rejected", count: leaveRequests.filter(r => r.status_c === "rejected").length }
   ];
 
   return (
@@ -150,31 +150,29 @@ const Leave = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRequests.map((request) => (
-                  <tr key={request.Id} className="hover:bg-gray-50">
+<tr key={request.Id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {request.employeeName}
+                        {request.employee_name_c}
                       </div>
                       <div className="text-sm text-gray-500">
                         ID: {request.employeeId}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <Badge variant="accent">
-                        {request.type.charAt(0).toUpperCase() + request.type.slice(1)}
-                      </Badge>
+<td className="px-6 py-4 whitespace-nowrap">
+                      <Badge variant="accent">{request.type_c}</Badge>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <div>{format(new Date(request.startDate), "MMM d, yyyy")}</div>
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <div>{format(new Date(request.start_date_c), "MMM d, yyyy")}</div>
                       <div className="text-gray-500">
-                        to {format(new Date(request.endDate), "MMM d, yyyy")}
+                        to {format(new Date(request.end_date_c), "MMM d, yyyy")}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <StatusBadge status={request.status} type="leave" />
+<StatusBadge status={request.status_c} type="leave" />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      {request.status === "pending" && (
+{request.status_c === "pending" && (
                         <div className="flex space-x-2">
                           <Button
                             size="sm"
@@ -242,8 +240,8 @@ const Leave = () => {
             </div>
           </div>
           <div className="text-3xl font-bold text-primary mb-2">
-            {leaveRequests.filter(r => {
-              const requestDate = new Date(r.createdAt);
+{leaveRequests.filter(r => {
+              const requestDate = new Date(r.created_at_c);
               const now = new Date();
               return requestDate.getMonth() === now.getMonth() && 
                      requestDate.getFullYear() === now.getFullYear();
@@ -262,8 +260,8 @@ const Leave = () => {
             </div>
           </div>
           <div className="text-3xl font-bold text-success mb-2">
-            {leaveRequests.length > 0 
-              ? Math.round((leaveRequests.filter(r => r.status === "approved").length / leaveRequests.length) * 100)
+{leaveRequests.length > 0 
+              ? Math.round((leaveRequests.filter(r => r.status_c === "approved").length / leaveRequests.length) * 100)
               : 0}%
           </div>
           <p className="text-sm text-gray-600">Requests approved</p>

@@ -22,14 +22,14 @@ const EmployeeCard = ({ employee, onEdit, onDelete, onViewProfile }) => {
         <div className="flex items-center space-x-3">
           <Avatar
             src={employee.photoUrl}
-            fallback={`${employee.firstName} ${employee.lastName}`}
+fallback={`${employee.first_name_c} ${employee.last_name_c}`}
             size="lg"
           />
           <div>
             <h3 className="font-semibold text-gray-900 font-display">
-              {employee.firstName} {employee.lastName}
+              {employee.first_name_c} {employee.last_name_c}
             </h3>
-            <p className="text-sm text-gray-600">{employee.role}</p>
+            <p className="text-sm text-gray-600">{employee.role_c}</p>
           </div>
         </div>
         
@@ -73,25 +73,25 @@ const EmployeeCard = ({ employee, onEdit, onDelete, onViewProfile }) => {
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">Department:</span>
-          <Badge variant="primary">{employee.department}</Badge>
+<span className="text-sm text-gray-600">Department:</span>
+          <Badge variant="primary">{employee.department_c}</Badge>
         </div>
         
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">Status:</span>
-          <StatusBadge status={employee.status} type="employee" />
+<StatusBadge status={employee.status_c} type="employee" />
         </div>
         
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">Employee ID:</span>
-          <span className="text-sm font-mono text-gray-900">{employee.id}</span>
+<span className="text-sm font-mono text-gray-900">{employee.Id}</span>
         </div>
       </div>
 
       <div className="mt-4 pt-4 border-t border-gray-100">
         <div className="flex items-center text-xs text-gray-500">
           <ApperIcon name="Calendar" className="w-3 h-3 mr-1" />
-          Joined {new Date(employee.joinDate).toLocaleDateString()}
+Joined {new Date(employee.join_date_c).toLocaleDateString()}
         </div>
       </div>
 

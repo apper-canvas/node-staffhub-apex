@@ -5,12 +5,13 @@ import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 
 const LeaveRequestForm = ({ onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
-    employeeId: "",
-    type: "",
-    startDate: "",
-    endDate: "",
-    reason: ""
+const [formData, setFormData] = useState({
+    employee_id_c: "",
+    employee_name_c: "",
+    type_c: "",
+    start_date_c: "",
+    end_date_c: "",
+    reason_c: ""
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,8 +32,8 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validation
-    if (!formData.employeeId || !formData.type || !formData.startDate || !formData.endDate) {
+// Validation
+    if (!formData.employee_id_c || !formData.type_c || !formData.start_date_c || !formData.end_date_c) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -44,17 +45,16 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
 
     setIsSubmitting(true);
 
-    try {
+try {
       const newRequest = {
-        Id: Date.now(), // Mock ID generation
-        employeeId: formData.employeeId,
-        type: formData.type,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        reason: formData.reason,
-        status: "pending",
-        approvedBy: null,
-        createdAt: new Date().toISOString()
+        employee_id_c: formData.employee_id_c,
+        employee_name_c: formData.employee_name_c,
+        type_c: formData.type_c,
+        start_date_c: formData.start_date_c,
+        end_date_c: formData.end_date_c,
+        reason_c: formData.reason_c,
+        status_c: "pending",
+        approved_by_c: null
       };
 
       if (onSubmit) {
@@ -64,12 +64,13 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
       toast.success("Leave request submitted successfully");
       
       // Reset form
-      setFormData({
-        employeeId: "",
-        type: "",
-        startDate: "",
-        endDate: "",
-        reason: ""
+setFormData({
+        employee_id_c: "",
+        employee_name_c: "",
+        type_c: "",
+        start_date_c: "",
+        end_date_c: "",
+        reason_c: ""
       });
     } catch (error) {
       toast.error("Failed to submit leave request");
@@ -96,16 +97,16 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
           <Input
             label="Employee ID"
             type="text"
-            value={formData.employeeId}
-            onChange={(e) => handleInputChange("employeeId", e.target.value)}
+value={formData.employee_id_c}
+            onChange={(e) => handleInputChange("employee_id_c", e.target.value)}
             placeholder="Enter employee ID"
             required
           />
 
           <Select
             label="Leave Type"
-            value={formData.type}
-            onChange={(e) => handleInputChange("type", e.target.value)}
+value={formData.type_c}
+            onChange={(e) => handleInputChange("type_c", e.target.value)}
             required
           >
             <option value="">Select leave type</option>
@@ -121,14 +122,16 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
           <Input
             label="Start Date"
             type="date"
-            value={formData.startDate}
-            onChange={(e) => handleInputChange("startDate", e.target.value)}
+value={formData.start_date_c}
+            onChange={(e) => handleInputChange("start_date_c", e.target.value)}
             required
           />
 
           <Input
-            label="End Date"
+label="End Date"
             type="date"
+            value={formData.end_date_c}
+            onChange={(e) => handleInputChange("end_date_c", e.target.value)}
             value={formData.endDate}
             onChange={(e) => handleInputChange("endDate", e.target.value)}
             required
@@ -141,7 +144,8 @@ const LeaveRequestForm = ({ onSubmit, onCancel }) => {
           </label>
           <textarea
             value={formData.reason}
-            onChange={(e) => handleInputChange("reason", e.target.value)}
+value={formData.reason_c}
+            onChange={(e) => handleInputChange("reason_c", e.target.value)}
             rows={4}
             className="block w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
             placeholder="Please provide reason for leave request..."

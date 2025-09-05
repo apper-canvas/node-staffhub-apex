@@ -14,15 +14,15 @@ const Attendance = () => {
   const { employees } = useEmployees();
   const [selectedDate] = useState(new Date().toISOString().split("T")[0]);
 
-  const todayAttendance = attendance.filter(record => 
-    format(new Date(record.date), "yyyy-MM-dd") === selectedDate
+const todayAttendance = attendance.filter(record => 
+    format(new Date(record.date_c), "yyyy-MM-dd") === selectedDate
   );
 
   const stats = {
-    present: todayAttendance.filter(record => record.status === "present").length,
-    absent: todayAttendance.filter(record => record.status === "absent").length,
-    late: todayAttendance.filter(record => record.status === "late").length,
-    onLeave: todayAttendance.filter(record => record.status === "leave").length
+present: todayAttendance.filter(record => record.status_c === "present").length,
+    absent: todayAttendance.filter(record => record.status_c === "absent").length,
+    late: todayAttendance.filter(record => record.status_c === "late").length,
+    onLeave: todayAttendance.filter(record => record.status_c === "leave").length
   };
 
   const handleUpdateStatus = async (recordId, newStatus) => {
@@ -122,7 +122,7 @@ const Attendance = () => {
           </h3>
           <div className="space-y-4">
             {["Engineering", "Product", "Design", "Marketing", "Sales"].map((dept) => {
-              const deptAttendance = todayAttendance.filter(record => record.department === dept);
+const deptAttendance = todayAttendance.filter(record => record.department_c === dept);
               const presentCount = deptAttendance.filter(record => 
                 record.status === "present" || record.status === "late"
               ).length;
@@ -158,13 +158,13 @@ const Attendance = () => {
           </h3>
           <div className="space-y-3">
             {todayAttendance
-              .filter(record => record.checkIn && record.status === "present")
+.filter(record => record.check_in_c && record.status_c === "present")
               .slice(0, 5)
               .map((record) => (
-                <div key={record.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+<div key={record.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div>
-                    <div className="font-medium text-gray-900">{record.employeeName}</div>
-                    <div className="text-sm text-gray-600">{record.department}</div>
+                    <div className="font-medium text-gray-900">{record.employee_name_c}</div>
+                    <div className="text-sm text-gray-600">{record.department_c}</div>
                   </div>
                   <div className="text-sm font-medium text-primary">
                     {new Date(`1970-01-01T${record.checkIn}`).toLocaleTimeString([], { 

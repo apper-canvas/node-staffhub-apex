@@ -152,7 +152,7 @@ const Reports = () => {
         />
         <StatCard
           title="Departments"
-          value={[...new Set(employees.map(emp => emp.department))].length}
+value={[...new Set(employees.map(emp => emp.department_c))].length}
           icon="Building"
         />
       </div>

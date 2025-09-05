@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useEmployees } from "@/hooks/useEmployees";
+import EmployeeCard from "@/components/organisms/EmployeeCard";
 import SearchBar from "@/components/molecules/SearchBar";
 import FilterDropdown from "@/components/molecules/FilterDropdown";
-import EmployeeCard from "@/components/organisms/EmployeeCard";
-import Button from "@/components/atoms/Button";
-import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
 
 const Employees = () => {
   const { employees, loading, error, searchEmployees, deleteEmployee } = useEmployees();
@@ -16,8 +16,8 @@ const Employees = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState([]);
 
-  // Get unique departments for filter
-  const departments = [...new Set(employees.map(emp => emp.department))].map(dept => ({
+// Get unique departments for filter
+  const departments = [...new Set((employees || []).map(emp => emp?.department_c).filter(Boolean))].map(dept => ({
     value: dept,
     label: dept
   }));
@@ -28,19 +28,19 @@ const Employees = () => {
   ];
 
   // Filter employees based on search and filters
+// Filter employees based on search and filters
   useEffect(() => {
     let filtered = employees;
 
     if (departmentFilter) {
-      filtered = filtered.filter(emp => emp.department === departmentFilter);
+      filtered = filtered.filter(emp => emp.department_c === departmentFilter);
     }
 
     if (statusFilter) {
-      filtered = filtered.filter(emp => emp.status === statusFilter);
+      filtered = filtered.filter(emp => emp.status_c === statusFilter);
     }
 
     setFilteredEmployees(filtered);
-  }, [employees, departmentFilter, statusFilter]);
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -160,24 +160,24 @@ const Employees = () => {
           Employee Summary
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div>
-            <div className="text-2xl font-bold text-primary">{employees.length}</div>
+<div>
+            <div className="text-2xl font-bold text-primary">{(employees || []).length}</div>
             <div className="text-sm text-gray-600">Total Employees</div>
           </div>
-          <div>
+<div>
             <div className="text-2xl font-bold text-success">
-              {employees.filter(emp => emp.status === "active").length}
+              {(employees || []).filter(emp => emp?.status_c === "active").length}
             </div>
             <div className="text-sm text-gray-600">Active</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-error">
-              {employees.filter(emp => emp.status === "inactive").length}
+              {(employees || []).filter(emp => emp?.status_c === "inactive").length}
             </div>
             <div className="text-sm text-gray-600">Inactive</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-accent">{departments.length}</div>
+            <div className="text-2xl font-bold text-accent">{departments?.length || 0}</div>
             <div className="text-sm text-gray-600">Departments</div>
           </div>
         </div>
